@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import '../models/meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
-  
-  const MealDetailScreen(this.onToggleFavorite,{super.key});
+  const MealDetailScreen(this.onToggleFavorite, this.isFavorite, {super.key});
 
   final Function(Meal) onToggleFavorite;
+  final Function(Meal) isFavorite;
 
-  Widget _createSectionTitle(BuildContext context, String title){
+  Widget _createSectionTitle(BuildContext context, String title) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10,),
+      margin: const EdgeInsets.symmetric(
+        vertical: 10,
+      ),
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleMedium,
@@ -18,7 +20,7 @@ class MealDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _createSectionContainer(Widget child){
+  Widget _createSectionContainer(Widget child) {
     return Container(
       width: 330,
       height: 200,
@@ -32,8 +34,6 @@ class MealDetailScreen extends StatelessWidget {
       child: child,
     );
   }
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +65,7 @@ class MealDetailScreen extends StatelessWidget {
                         vertical: 5,
                         horizontal: 10,
                       ),
-                      child: Text(
-                        meal.ingredients[index]
-                      ),
+                      child: Text(meal.ingredients[index]),
                     ),
                   );
                 },
@@ -77,12 +75,12 @@ class MealDetailScreen extends StatelessWidget {
             _createSectionContainer(
               ListView.builder(
                 itemCount: meal.steps.length,
-                itemBuilder: (ctx, index){
+                itemBuilder: (ctx, index) {
                   return Column(
                     children: [
                       ListTile(
                         leading: CircleAvatar(
-                          child: Text('${index+1}'),  
+                          child: Text('${index + 1}'),
                         ),
                         title: Text(meal.steps[index]),
                       ),
@@ -97,8 +95,11 @@ class MealDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).hintColor,
-        child: const Icon(Icons.star),
-        onPressed: (){
+        child: Icon(
+          isFavorite(meal) ? Icons.star : Icons.star_border,
+          color: Colors.black,
+        ),
+        onPressed: () {
           onToggleFavorite(meal);
         },
       ),
